@@ -231,7 +231,7 @@ void vfnLoadSequencesFromSD(void) {
 void vfnBroadcastSequences(void) {
     
     int seq;
-    int step;
+    uint step;
     int chan;
     
     pc.printf("N\n");
