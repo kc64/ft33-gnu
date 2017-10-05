@@ -7,6 +7,7 @@ typedef struct {
     } sDimChanStep;
 
 typedef struct {
+    byte ticks;
     sDimChanStep Chan[8];
     } sDimStep;
 
