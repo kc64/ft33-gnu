@@ -6,17 +6,17 @@
 #include "sequences.h"
 #include "dim_steps.h"
 
-//#define DEBUG 0
+// #define DEBUG 0
 #ifdef DEBUG
 #warning "Using debug mode."
 #endif
 
-#define VERBOSE 0
+// #define VERBOSE 0
 #ifdef VERBOSE
 #warning "Using verbose mode."
 #endif
 
-//#define USB_TEST
+// #define USB_TEST
 #ifdef USB_TEST
 #warning "Using USB test mode."
 #endif
@@ -341,7 +341,7 @@ void vfnBroadcastSequences(void) {
         ptrDimSequence = (sDimStep *) ptrDimSequences[seq];
         sequenceLength = DimSequenceLengths[seq];
         pc.printf("Q %02x %02x\n", seq, sequenceLength);
-        for(step=0; step<sequenceLength; step++) {
+        for(step=0; step< (int) sequenceLength; step++) {
             pc.printf("S ");
             pc.printf("%02x ", ptrDimSequence[step].ticks);
             for(chan=0; chan<8; chan++) {
