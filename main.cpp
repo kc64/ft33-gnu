@@ -104,11 +104,11 @@ void ZCD(void) {
         step++;
         if(step >= sequenceLength) {
             step = 0;
-			pc.putc('R');
+            pc.putc('R');
         }
-		else {
-			pc.putc('Z');
-		}
+        else {
+            pc.putc('Z');
+        }
         pattern = ~ptrSequence[step];
         #ifdef VERBOSE
         //pc.printf("P:%02x ", ptrSequence[step]);
@@ -122,28 +122,28 @@ void ZCD(void) {
 }
 
 void ZCD_Slave(void) {
-	if(got_R == 1) {
+    if(got_R == 1) {
         step = 0;
-	}
+    }
     else if(got_Z == 1) {
         step++;
         if(step >= sequenceLength) {
-			step = 0;
+            step = 0;
         }
     }
-	
-	if ((got_R == 1) or (got_Z == 1)) {
+    
+    if ((got_R == 1) or (got_Z == 1)) {
         pattern = ~ptrSequence[step];
         #ifdef VERBOSE
         //pc.printf("P:%02x ", ptrSequence[step]);
         #endif
         lights = pattern;
 
-		got_R = 0;
-        got_Z = 0;		
-	}
-	
-	#ifdef VERBOSE
+        got_R = 0;
+        got_Z = 0;      
+    }
+    
+    #ifdef VERBOSE
     //pc.printf("Z. clocks: %d, speed_clks: %d\n\r", clocks, speed_clks);
     #endif
 }
@@ -232,9 +232,9 @@ void TimeToSwitch(void) {
             step = 0;
         }
         /* Put out the Z sync to the slaves. This tells them to step there sequence. */
-		#ifdef DEBUG
-		pc.printf("Z %02x\n", step);
-		#endif
+        #ifdef DEBUG
+        pc.printf("Z %02x\n", step);
+        #endif
         // pc.putc('Z');
 
         for(i=0; i<8; i++) {
@@ -477,7 +477,7 @@ int main() {
     byte sequence;          /* The current sequence. */
     byte i;
     byte sd;
-	byte sync_char;
+    byte sync_char;
 
     /* Basic initialization. */
     ok_to_switch = TRUE;
@@ -536,7 +536,7 @@ int main() {
             sequenceLength = sequenceLengths[sequence];
             tkr_Timer.attach_us(&ZCD, 8333);
         }
-		else {
+        else {
             sequence = sequence - 240;
             ptrDimSequence = (sDimStep *) ptrDimSequences[sequence];
             sequenceLength = DimSequenceLengths[sequence];
@@ -561,34 +561,34 @@ int main() {
             wait(0.5);
         }
     }
-	else {
+    else {
         /* This is a slave board. */
-		#ifdef DEBUG
+        #ifdef DEBUG
         pc.printf("Slave\n");
-		#endif
+        #endif
 
         if(local_slave_data.read() == 1) {
-			vfnSlaveRecieveData();
+            vfnSlaveRecieveData();
             sequence = master_sequence;    
-			#ifdef DEBUG
+            #ifdef DEBUG
             pc.printf("Use master data %d\n", sequence);
-			#endif
+            #endif
         }
-		else {
+        else {
             /* Read the dipswitch */
             sequence = dipswitch.read();
-			#ifdef DEBUG
+            #ifdef DEBUG
             pc.printf("Use slave seqence %d\n", sequence);
-			#endif
+            #endif
         }
 
         if(sequence < 240) {
             ptrSequence = (byte *) ptrSequences[sequence];
             sequenceLength = sequenceLengths[sequence];
-			
+            
             tkr_Timer.attach_us(&ZCD_Slave, 8333);
         }
-		else {
+        else {
             sequence = sequence - 240;
             ptrDimSequence = (sDimStep *) ptrDimSequences[sequence];
             sequenceLength = DimSequenceLengths[sequence];
@@ -607,13 +607,13 @@ int main() {
                 //pc.printf("\nStep: %s, %02x\n", line, current_step);
             //    got_Z = 1;
             // }
-			sync_char = pc.getc();
-			if (sync_char == 'R') {
-				got_R = 1;
-			}
-			else if (sync_char == 'Z') {
-				got_Z = 1;
-			}
+            sync_char = pc.getc();
+            if (sync_char == 'R') {
+                got_R = 1;
+            }
+            else if (sync_char == 'Z') {
+                got_Z = 1;
+            }
             __enable_irq();
         }
     }
