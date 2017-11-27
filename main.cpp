@@ -78,7 +78,7 @@ byte pattern;           /* The current output pattern. */
 byte *ptrSequence;      /* A pointer to the desired sequence. */
 
 word sequenceLength;    /* The length of the desired sequence. */
-byte step;              /* The step in the current sequence. */
+word step;              /* The step in the current sequence. */
 byte num_ticks_per_step;  /* Each step can have one or more ticks before it changes. */
 char line[100];
 byte master_sequence; 
